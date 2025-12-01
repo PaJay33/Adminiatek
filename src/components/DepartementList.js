@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
 import './DepartementList.css';
 
 const DepartementList = () => {
@@ -7,8 +9,12 @@ const DepartementList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const { token, logout } = useAuth();
+  const navigate = useNavigate();
+
   useEffect(() => {
     fetchDepartements();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchDepartements = async (retryAttempt = 0) => {
@@ -18,7 +24,10 @@ const DepartementList = () => {
       console.log('Tentative de connexion à:', 'https://backendiat.onrender.com/dept/departements');
 
       const response = await axios.get('https://backendiat.onrender.com/dept/departements', {
-        timeout: 30000 // 30 secondes pour permettre au serveur Render de se réveiller
+        timeout: 30000, // 30 secondes pour permettre au serveur Render de se réveiller
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
 
       console.log('Réponse reçue:', response.data);
@@ -75,12 +84,21 @@ const DepartementList = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer ce département?')) {
       try {
-        await axios.delete(`https://backendiat.onrender.com/dept/${id}`);
+        await axios.delete(`https://backendiat.onrender.com/dept/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
         fetchDepartements(); // Recharger la liste après suppression
       } catch (err) {
         alert('Erreur lors de la suppression: ' + err.message);
       }
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
   };
 
   if (loading) {
@@ -93,9 +111,12 @@ const DepartementList = () => {
 
   return (
     <div className="departement-container">
-      <h1>Liste des Départements</h1>
-      <div className="refresh-btn">
-        <button onClick={fetchDepartements}>Actualiser</button>
+      <div className="header">
+        <h1>Liste des Départements</h1>
+        <div className="header-actions">
+          <button onClick={fetchDepartements} className="refresh-btn">Actualiser</button>
+          <button onClick={handleLogout} className="logout-btn">Déconnexion</button>
+        </div>
       </div>
 
       {departements.length === 0 ? (
