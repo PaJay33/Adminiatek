@@ -139,7 +139,7 @@ const DepartementList = () => {
   return (
     <div className="departement-container">
       <div className="header">
-        <h1>Liste des Départements</h1>
+        <h1>Liste des messages</h1>
         <div className="header-actions">
           <button onClick={fetchDepartements} className="refresh-btn">Actualiser</button>
           <button onClick={handleLogout} className="logout-btn">Déconnexion</button>
@@ -147,7 +147,7 @@ const DepartementList = () => {
       </div>
 
       {departements.length === 0 ? (
-        <p className="no-data">Aucun département trouvé</p>
+        <p className="no-data">Aucun message trouvé</p>
       ) : (
         <div className="table-responsive">
           <table className="departement-table">
