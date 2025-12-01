@@ -1,0 +1,121 @@
+.departement-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.refresh-btn {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.refresh-btn button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.refresh-btn button:hover {
+  background-color: #45a049;
+}
+
+.loading, .error, .no-data {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+}
+
+.error {
+  color: #d32f2f;
+  background-color: #ffebee;
+  border-radius: 4px;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+.departement-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.departement-table thead {
+  background-color: #1976d2;
+  color: white;
+}
+
+.departement-table th,
+.departement-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.departement-table th {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.departement-table tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.message-cell {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.delete-btn:hover {
+  background-color: #d32f2f;
+}
+
+.total-count {
+  text-align: right;
+  margin-top: 20px;
+  font-weight: bold;
+  color: #666;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .departement-table {
+    font-size: 12px;
+  }
+
+  .departement-table th,
+  .departement-table td {
+    padding: 8px 10px;
+  }
+
+  .message-cell {
+    max-width: 150px;
+  }
+}
