@@ -14,7 +14,7 @@ const DepartementList = () => {
   const fetchDepartements = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('https://backendiat.onrender.com/dept/departements');
+      const response = await axios.get('https://backendiat.onrender.com/departements');
       setDepartements(response.data);
       setError(null);
     } catch (err) {
