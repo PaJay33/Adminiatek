@@ -8,6 +8,8 @@ const DepartementList = () => {
   const [departements, setDepartements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedDept, setSelectedDept] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const { token, logout } = useAuth();
   const navigate = useNavigate();
@@ -114,6 +116,18 @@ const DepartementList = () => {
     return colors[service] || { bg: '#607D8B', text: 'white' };
   };
 
+  // Fonction pour ouvrir la modal avec les détails
+  const handleViewDetails = (dept) => {
+    setSelectedDept(dept);
+    setShowModal(true);
+  };
+
+  // Fonction pour fermer la modal
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedDept(null);
+  };
+
   if (loading) {
     return <div className="loading">Chargement...</div>;
   }
@@ -168,7 +182,14 @@ const DepartementList = () => {
                         {dept.service}
                       </span>
                     </td>
-                    <td className="message-cell" title={dept.message}>{dept.message}</td>
+                    <td
+                      className="message-cell"
+                      onClick={() => handleViewDetails(dept)}
+                      style={{cursor: 'pointer'}}
+                      title="Cliquez pour voir le détail"
+                    >
+                      {dept.message}
+                    </td>
                     <td>
                       <button
                         className="delete-btn"
@@ -190,6 +211,54 @@ const DepartementList = () => {
           📊 Total: {departements.length} message(s)
         </div>
       </div>
+
+      {showModal && selectedDept && (
+        <div className="modal-overlay" onClick={handleCloseModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Détails du message</h2>
+              <button className="modal-close-btn" onClick={handleCloseModal}>×</button>
+            </div>
+            <div className="modal-body">
+              <div className="detail-row">
+                <span className="detail-label">Nom complet:</span>
+                <span className="detail-value">{selectedDept.nom} {selectedDept.prenom}</span>
+              </div>
+              <div className="detail-row">
+                <span className="detail-label">Email:</span>
+                <span className="detail-value">{selectedDept.email}</span>
+              </div>
+              <div className="detail-row">
+                <span className="detail-label">Téléphone:</span>
+                <span className="detail-value">{selectedDept.phone || 'Non renseigné'}</span>
+              </div>
+              <div className="detail-row">
+                <span className="detail-label">Service demandé:</span>
+                <span className="detail-value">
+                  <span
+                    className="service-badge"
+                    style={{
+                      backgroundColor: getServiceBadgeStyle(selectedDept.service).bg,
+                      color: getServiceBadgeStyle(selectedDept.service).text
+                    }}
+                  >
+                    {selectedDept.service}
+                  </span>
+                </span>
+              </div>
+              <div className="detail-row message-row">
+                <span className="detail-label">Message complet:</span>
+                <div className="detail-message">{selectedDept.message}</div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button className="modal-close-footer-btn" onClick={handleCloseModal}>
+                Fermer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
