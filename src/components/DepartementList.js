@@ -11,14 +11,62 @@ const DepartementList = () => {
     fetchDepartements();
   }, []);
 
-  const fetchDepartements = async () => {
+  const fetchDepartements = async (retryAttempt = 0) => {
     try {
       setLoading(true);
-      const response = await axios.get('https://backendiat.onrender.com/departements');
+      setError(null);
+      console.log('Tentative de connexion à:', 'https://backendiat.onrender.com/dept/departements');
+
+      const response = await axios.get('https://backendiat.onrender.com/dept/departements', {
+        timeout: 30000 // 30 secondes pour permettre au serveur Render de se réveiller
+      });
+
+      console.log('Réponse reçue:', response.data);
       setDepartements(response.data);
       setError(null);
     } catch (err) {
-      setError('Erreur lors du chargement des données: ' + err.message);
+      console.error('Erreur complète:', err);
+      console.error('Réponse du serveur:', err.response);
+
+      let errorMessage = 'Erreur lors du chargement des données: ';
+      let canRetry = false;
+
+      if (err.response) {
+        // Le serveur a répondu avec un code d'erreur
+        errorMessage += `${err.response.status} - ${err.response.statusText}. `;
+        console.error('Données de l\'erreur:', err.response.data);
+
+        if (err.response.status === 404) {
+          errorMessage += '\n\nPossibles causes:\n' +
+            '• L\'endpoint /dept/departements n\'existe pas sur le serveur\n' +
+            '• Le serveur backend n\'est pas déployé correctement\n' +
+            '• Vérifiez les routes dans votre backend';
+        } else if (err.response.status === 500) {
+          errorMessage += 'Erreur serveur. Vérifiez les logs du backend.';
+          canRetry = retryAttempt < 2;
+        }
+      } else if (err.request) {
+        // La requête a été envoyée mais aucune réponse reçue
+        errorMessage += 'Pas de réponse du serveur.\n\n' +
+          'Le serveur Render (gratuit) s\'endort après inactivité.\n' +
+          'Il peut prendre jusqu\'à 30 secondes pour se réveiller.';
+        canRetry = retryAttempt < 2;
+      } else if (err.code === 'ECONNABORTED') {
+        errorMessage += 'Délai d\'attente dépassé. Le serveur met trop de temps à répondre.';
+        canRetry = retryAttempt < 1;
+      } else {
+        errorMessage += err.message;
+      }
+
+      setError(errorMessage);
+
+      // Retry automatique pour certaines erreurs
+      if (canRetry) {
+        console.log(`Nouvelle tentative dans 3 secondes... (tentative ${retryAttempt + 1}/2)`);
+        setError(errorMessage + `\n\nNouvelle tentative dans 3 secondes... (${retryAttempt + 1}/2)`);
+        setTimeout(() => fetchDepartements(retryAttempt + 1), 3000);
+        return;
+      }
     } finally {
       setLoading(false);
     }
