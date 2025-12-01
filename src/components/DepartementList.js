@@ -101,6 +101,19 @@ const DepartementList = () => {
     navigate('/login');
   };
 
+  // Fonction pour obtenir la couleur du badge selon le service
+  const getServiceBadgeStyle = (service) => {
+    const colors = {
+      'site-web': { bg: '#4CAF50', text: 'white' },
+      'startup': { bg: '#FF9800', text: 'white' },
+      'cybersecurite': { bg: '#F44336', text: 'white' },
+      'autre': { bg: '#9E9E9E', text: 'white' },
+      'application-mobile': { bg: '#2196F3', text: 'white' },
+      'consulting': { bg: '#9C27B0', text: 'white' }
+    };
+    return colors[service] || { bg: '#607D8B', text: 'white' };
+  };
+
   if (loading) {
     return <div className="loading">Chargement...</div>;
   }
@@ -136,31 +149,46 @@ const DepartementList = () => {
               </tr>
             </thead>
             <tbody>
-              {departements.map((dept) => (
-                <tr key={dept._id}>
-                  <td>{dept.nom}</td>
-                  <td>{dept.prenom || '-'}</td>
-                  <td>{dept.email}</td>
-                  <td>{dept.phone || '-'}</td>
-                  <td>{dept.service}</td>
-                  <td className="message-cell">{dept.message}</td>
-                  <td>
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(dept._id)}
-                    >
-                      Supprimer
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {departements.map((dept) => {
+                const badgeStyle = getServiceBadgeStyle(dept.service);
+                return (
+                  <tr key={dept._id}>
+                    <td><strong>{dept.nom}</strong></td>
+                    <td>{dept.prenom || '-'}</td>
+                    <td>{dept.email}</td>
+                    <td>{dept.phone || '-'}</td>
+                    <td>
+                      <span
+                        className="service-badge"
+                        style={{
+                          backgroundColor: badgeStyle.bg,
+                          color: badgeStyle.text
+                        }}
+                      >
+                        {dept.service}
+                      </span>
+                    </td>
+                    <td className="message-cell" title={dept.message}>{dept.message}</td>
+                    <td>
+                      <button
+                        className="delete-btn"
+                        onClick={() => handleDelete(dept._id)}
+                      >
+                        🗑️ Supprimer
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
       )}
 
-      <div className="total-count">
-        Total: {departements.length} département(s)
+      <div style={{ clear: 'both' }}>
+        <div className="total-count">
+          📊 Total: {departements.length} message(s)
+        </div>
       </div>
     </div>
   );

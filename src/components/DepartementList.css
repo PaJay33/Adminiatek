@@ -1,145 +1,289 @@
+/* Container principal avec gradient */
 .departement-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Header avec design moderne */
 .header {
+  background: white;
+  padding: 25px 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
   flex-wrap: wrap;
+  gap: 20px;
 }
 
 h1 {
-  color: #333;
+  color: #667eea;
   margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .header-actions {
   display: flex;
-  gap: 10px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .refresh-btn, .logout-btn {
   color: white;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .refresh-btn {
-  background-color: #4CAF50;
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
 }
 
 .refresh-btn:hover {
-  background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
 }
 
 .logout-btn {
-  background-color: #f44336;
+  background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
 }
 
 .logout-btn:hover {
-  background-color: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
 }
 
+/* Loading, Error, No Data */
 .loading, .error, .no-data {
+  background: white;
   text-align: center;
-  padding: 40px;
+  padding: 60px 40px;
   font-size: 18px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+.loading {
+  color: #667eea;
+  font-weight: 600;
 }
 
 .error {
   color: #d32f2f;
-  background-color: #ffebee;
-  border-radius: 4px;
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+  border-left: 5px solid #d32f2f;
   white-space: pre-line;
   text-align: left;
-  max-width: 800px;
-  margin: 20px auto;
-  line-height: 1.6;
+  line-height: 1.8;
 }
 
+.no-data {
+  color: #666;
+}
+
+/* Table responsive avec design moderne */
 .table-responsive {
   overflow-x: auto;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  border-radius: 8px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  padding: 25px;
 }
 
 .departement-table {
   width: 100%;
-  border-collapse: collapse;
-  background-color: white;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .departement-table thead {
-  background-color: #1976d2;
-  color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-.departement-table th,
-.departement-table td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+.departement-table thead tr th:first-child {
+  border-top-left-radius: 10px;
+}
+
+.departement-table thead tr th:last-child {
+  border-top-right-radius: 10px;
 }
 
 .departement-table th {
-  font-weight: bold;
+  padding: 18px 20px;
+  text-align: left;
+  color: white;
+  font-weight: 600;
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.departement-table td {
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+  color: #333;
+  font-size: 15px;
+}
+
+.departement-table tbody tr {
+  transition: all 0.3s ease;
 }
 
 .departement-table tbody tr:hover {
-  background-color: #f5f5f5;
+  background: linear-gradient(135deg, #f8f9ff 0%, #f5f3ff 100%);
+  transform: scale(1.01);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+}
+
+.departement-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+.departement-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+
+.departement-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Badge pour le service */
+.service-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .message-cell {
-  max-width: 300px;
+  max-width: 350px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: #555;
+  font-style: italic;
 }
 
+/* Bouton de suppression moderne */
 .delete-btn {
-  background-color: #f44336;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
   color: white;
-  padding: 6px 12px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(238, 90, 111, 0.3);
 }
 
 .delete-btn:hover {
-  background-color: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(238, 90, 111, 0.5);
 }
 
+.delete-btn:active {
+  transform: translateY(0);
+}
+
+/* Compteur total avec style */
 .total-count {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 15px;
+  margin-top: 25px;
   text-align: right;
-  margin-top: 20px;
-  font-weight: bold;
-  color: #666;
+  font-weight: 700;
+  font-size: 18px;
+  color: #667eea;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  float: right;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
+  .departement-container {
+    padding: 20px 10px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .header {
+    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .refresh-btn, .logout-btn {
+    flex: 1;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .table-responsive {
+    padding: 15px;
+  }
+
   .departement-table {
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .departement-table th,
   .departement-table td {
-    padding: 8px 10px;
+    padding: 12px 10px;
   }
 
   .message-cell {
     max-width: 150px;
   }
+
+  .total-count {
+    width: 100%;
+    text-align: center;
+    float: none;
+    margin: 20px 0 0 0;
+  }
+}
+
+/* Animation de chargement */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.loading {
+  animation: pulse 2s ease-in-out infinite;
 }
