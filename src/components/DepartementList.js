@@ -14,11 +14,25 @@ const DepartementList = () => {
   const fetchDepartements = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('https://backendiat.onrender.com/dept');
+      const response = await axios.get('https://backendiat.onrender.com/dept', {
+        timeout: 30000, // 30 secondes pour laisser le temps au backend de démarrer
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       setDepartements(response.data);
       setError(null);
     } catch (err) {
-      setError('Erreur lors du chargement des données: ' + err.message);
+      console.error('Erreur détaillée:', err);
+      if (err.code === 'ECONNABORTED') {
+        setError('Le serveur met trop de temps à répondre. Veuillez réessayer.');
+      } else if (err.response) {
+        setError(`Erreur serveur (${err.response.status}): ${err.response.data?.message || err.message}`);
+      } else if (err.request) {
+        setError('Impossible de contacter le serveur. Vérifiez votre connexion ou réessayez dans quelques instants.');
+      } else {
+        setError('Erreur lors du chargement des données: ' + err.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -27,7 +41,9 @@ const DepartementList = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer ce département?')) {
       try {
-        await axios.delete(`https://backendiat.onrender.com/dep/${id}`);
+        await axios.delete(`https://backendiat.onrender.com/dept/${id}`, {
+          timeout: 30000
+        });
         fetchDepartements(); // Recharger la liste après suppression
       } catch (err) {
         alert('Erreur lors de la suppression: ' + err.message);
